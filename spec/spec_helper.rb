@@ -1,6 +1,6 @@
 $: << File.join(File.dirname(__FILE__), '/../lib')
 
-Bundler.setup
+require 'pdf/inspector'
 require 'cheque'
 
 RSpec.configure do |config|
