@@ -17,4 +17,14 @@ describe Cheque::Copy do
     it { expect(pages.size).to eq(1) }
     it { expect(strings).to include("Cheque Copy Number: 1") }
   end
+
+  describe '#file' do
+    subject(:file) { copy.file }
+
+    it { expect(file).to be_truthy }
+    it { expect(file).to match(/(pdf)$/) }
+    it { expect(File.exist?(file)).to be_truthy }
+
+    # after { File.unlink(file) if File.exist?(file) }
+  end
 end

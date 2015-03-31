@@ -1,4 +1,5 @@
 require 'ostruct'
+require 'tmpdir'
 
 module Cheque
   class Copy
@@ -24,7 +25,20 @@ module Cheque
       render
     end
 
+    def file
+      return unless valid?
+
+      @file ||= lambda do
+        generate
+        save_as(path)
+
+        path
+      end.call
+    end
+
     private
+
+    attr_reader :params
 
     def generate
       valid?
@@ -35,12 +49,16 @@ module Cheque
     end
 
     def padded_bounding_box(padding, *args)
-      bounding_box(
-        [padding, bounds.height - padding],
-        width: bounds.width - (2 * padding),
-        heidht: bounds.height - (2 * padding)
-      ) do
-        yield
+      bounding_box(*args) do
+        stroke_bounds
+
+        bounding_box(
+          [padding, bounds.height - padding],
+          width: bounds.width - (2 * padding),
+          heidht: bounds.height - (2 * padding)
+        ) do
+          yield
+        end
       end
     end
 
@@ -48,6 +66,15 @@ module Cheque
       errors.size == 0
     end
 
-    attr_reader :params
+    def path
+      @path ||= (params.filepath || tempfilepath)
+    end
+
+    def tempfilepath
+      @tempfilepath ||= File.join(
+        Dir.tmpdir,
+        Dir::Tmpname.make_tmpname('cheque_copy', "#{id}.pdf")
+      )
+    end
   end
 end
