@@ -1,7 +1,7 @@
 require 'ostruct'
 require 'tmpdir'
 
-module Cheque
+class Cheque
   class Copy
     extend Forwardable
 
