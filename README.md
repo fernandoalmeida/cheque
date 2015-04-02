@@ -23,29 +23,33 @@ Or install it yourself as:
 ### Cheque Copy
 
 ```ruby
-copy = Cheque::Copy.new(
-	number: 1,
-	date: Time.now.to_date,
-	bank: 'Citybank',
-	agency_number: '123-4'
-	account_number: '45678-9'
-	amount: '100.00',
-	payee: 'Fernando Almeida'
-)
+data = {
+  number: 1,
+  date: Time.now.to_date,
+  bank: 'Citybank',
+  agency_number: '123-4'
+  account_number: '45678-9'
+  amount: '100.00',
+  payee: 'Fernando Almeida'
+}
 
-send_data(copy.data, filename: copy.filename, type: copy.mimetype)
+copy = Cheque.new(data, :copy)
+
+send_data(copy.render, filename: copy.filename, type: copy.mimetype)
 ```
 
 ### Cheque Printing
 
 ```ruby
-printing = Cheque::Printing.new(
-	date: Time.now.to_date,
-	amount: '100.00',
-	payee: 'Fernando Almeida'
-)
+data = {
+  date: Time.now.to_date,
+  amount: '100.00',
+  payee: 'Fernando Almeida'
+}
 
-send_data(printing.data, filename: printing.filename, type: printing.mimetype)
+printing = Cheque.new(data, :printing)
+
+send_data(printing.render, filename: printing.filename, type: printing.mimetype)
 ```
 
 ## Development
