@@ -4,18 +4,20 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cheque/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'cheque'
-  spec.version       = Cheque::VERSION
-  spec.authors       = ['Fernando Almeida']
-  spec.email         = ['fernando@fernandoalmeida.net']
+  spec.name = 'cheque'
+  spec.version = Cheque::VERSION
+  spec.authors = ['Fernando Almeida']
+  spec.email = ['fernando@fernandoalmeida.net']
 
-  spec.summary       = 'A gem to cheque copy and cheque printing'
-  spec.description   = 'Copy and printing of cheques'
-  spec.homepage      = 'https://github.com/fernandoalmeida/cheque'
-  spec.license       = 'MIT'
+  spec.summary = 'A gem to generate cheque copy and cheque printing'
+  spec.description = 'Cheque copy and printing'
+  spec.homepage = 'https://github.com/fernandoalmeida/cheque'
+  spec.license = 'MIT'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(/^(test|spec|features)\//)
+  end
+  spec.executables = spec.files.grep(/^exe\//) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
   spec.add_dependency 'prawn', '~> 2.0'
