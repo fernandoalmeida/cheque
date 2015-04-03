@@ -8,6 +8,7 @@ describe Cheque::Copy do
   end
 
   it { is_expected.to be_truthy }
+  it { expect(copy.id).to eq(1) }
 
   describe '#data' do
     let(:strings) { PDF::Inspector::Text.analyze(copy.data).strings.join }
@@ -15,7 +16,7 @@ describe Cheque::Copy do
 
     it { expect(copy.data).to be_truthy }
     it { expect(pages.size).to eq(1) }
-    it { expect(strings).to include("Cheque Copy Number: 1") }
+    it { expect(strings).to include('Cheque Copy Number: 1') }
   end
 
   describe '#file' do
@@ -25,6 +26,6 @@ describe Cheque::Copy do
     it { expect(file).to match(/(pdf)$/) }
     it { expect(File.exist?(file)).to be_truthy }
 
-    # after { File.unlink(file) if File.exist?(file) }
+    after { File.unlink(file) if File.exist?(file) }
   end
 end

@@ -1,5 +1,6 @@
 require 'ostruct'
 require 'tmpdir'
+require 'i18n'
 
 class Cheque
   class Copy
@@ -7,15 +8,14 @@ class Cheque
 
     include Prawn::View
 
-    attr_reader :params, :errors
-
-    def_delegators :params, *[
-      :id
-    ]
+    attr_accessor :id, :filepath, :errors
 
     def initialize(params)
-      @params = OpenStruct.new(params)
-      @errors = {}
+      params.each do |param, value|
+        send("#{param}=", value)
+      end
+
+      self.errors = {}
     end
 
     def data
@@ -37,8 +37,6 @@ class Cheque
     end
 
     private
-
-    attr_reader :params
 
     def generate
       valid?
@@ -63,11 +61,19 @@ class Cheque
     end
 
     def valid?
+      [
+        :id
+      ].each do |p|
+        if send(p).to_s.empty?
+          errors[p] = t('cheque.errors.required_param_not_found')
+        end
+      end
+
       errors.size == 0
     end
 
     def path
-      @path ||= (params.filepath || tempfilepath)
+      @path ||= (filepath || tempfilepath)
     end
 
     def tempfilepath
