@@ -9,11 +9,16 @@ describe Cheque do
 
   let(:document) { :copy }
 
-  it { is_expected.to be_truthy }
+  it { expect(cheque).to be_truthy }
 
   describe '#render' do
     subject(:render) { cheque.render }
 
     it { expect(render).to be_truthy }
+
+    it do
+      expect_any_instance_of(Cheque::Copy).to receive(:data)
+      render
+    end
   end
 end

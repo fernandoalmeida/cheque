@@ -10,7 +10,7 @@ class Cheque
   end
 
   def render
-    formater.render
+    formater.data
   end
 
   private
