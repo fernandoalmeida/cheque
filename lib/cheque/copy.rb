@@ -57,8 +57,26 @@ class Cheque
     def generate
       valid?
 
-      padded_bounding_box(10, [30, cursor], width: 500) do
-        text("Cheque Copy Number: #{id}")
+      text('CHEQUE COPY', align: :center, style: :bold, size: 14)
+
+      move_down 20
+      padded_bounding_box(20, [30, cursor], width: 500, height: 400) do
+        text_attribute('Cheque copy number', id)
+        stroke_horizontal_rule
+
+        move_down 10
+        text_attribute('Bank', bank)
+        text_attribute('Agency', agency_number)
+        text_attribute('Account', account_number)
+        text_attribute('Account holder', account_holder)
+
+        move_down 10
+        text_attribute('Cheque number', cheque_number)
+        text_attribute('Amount', "$ #{amount}")
+        text_attribute('Nominal to', nominal_to)
+
+        move_down 20
+        text("#{location}, #{l(date, format: :long)}", align: :center)
       end
     end
 
@@ -74,6 +92,15 @@ class Cheque
           yield
         end
       end
+    end
+
+    def text_attribute(name, value)
+      text(
+        "#{name}: <b>#{value}</b>",
+        inline_format: true,
+        size: 12,
+        leading: 5
+      )
     end
 
     def valid?
