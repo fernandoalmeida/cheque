@@ -1,6 +1,6 @@
 require 'ostruct'
 require 'tmpdir'
-require 'i18n'
+require_relative '../../config/initializers/setup_i18n.rb'
 
 class Cheque
   class Copy
@@ -9,6 +9,7 @@ class Cheque
     include Prawn::View
 
     attr_accessor :id, :filepath, :errors
+    def_delegators :I18n, :t, :l
 
     def initialize(params)
       params.each do |param, value|
