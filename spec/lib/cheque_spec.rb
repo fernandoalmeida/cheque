@@ -3,7 +3,17 @@ describe Cheque do
 
   let(:data) do
     {
-      id: 1
+      id: 1,
+      title: 'Payment',
+      bank: 'Global Banking',
+      agency_number: '123',
+      account_number: '456',
+      cheque_number: '789',
+      account_holder: 'Jimmy Hendrix Group',
+      nominal_to: 'Fernando Almeida',
+      amount: '100.00',
+      location: 'Sao Paulo',
+      date: Date.new(2015, 4, 7)
     }
   end
 
@@ -16,8 +26,9 @@ describe Cheque do
 
     it { expect(render).to be_truthy }
 
-    it do
+    it 'delegates to Cheque::Copy' do
       expect_any_instance_of(Cheque::Copy).to receive(:data)
+
       render
     end
   end

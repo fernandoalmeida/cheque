@@ -8,8 +8,23 @@ class Cheque
 
     include Prawn::View
 
-    attr_accessor :id, :filepath, :errors
     def_delegators :I18n, :t, :l
+
+    attr_accessor *[
+      :id,
+      :title,
+      :bank,
+      :agency_number,
+      :account_number,
+      :cheque_number,
+      :account_holder,
+      :nominal_to,
+      :amount,
+      :location,
+      :date,
+      :filepath,
+      :errors
+    ]
 
     def initialize(params)
       params.each do |param, value|
