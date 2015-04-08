@@ -2,6 +2,14 @@
 
 A gem to generate cheque copy and cheque printing
 
+## Examples
+
+### Cheque Copy
+
+[English](https://github.com/fernandoalmeida/cheque/blob/master/example/en_cheque_copy.pdf)
+
+[Brazilian Portuguese](https://github.com/fernandoalmeida/cheque/blob/master/example/pt-BR_copia_de_cheque.pdf)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -24,13 +32,22 @@ Or install it yourself as:
 
 ```ruby
 data = {
-  number: 1,
-  date: Time.now.to_date,
-  bank: 'Citybank',
-  agency_number: '123-4'
-  account_number: '45678-9'
+  id: 1,
+  title: 'Payment',
+  bank: 'Global Banking',
+  agency_number: '123',
+  account_number: '456',
+  cheque_number: '789',
+  account_holder: 'Jimmy Hendrix Group',
+  nominal_to: 'Fernando Almeida',
   amount: '100.00',
-  payee: 'Fernando Almeida'
+  location: 'Sao Paulo',
+  date: Date.new(2015, 4, 7),
+  transactions: [
+    ['Transaction', 'Description', 'Value'],
+    ['123', 'Order 1 payment', '30.00'],
+    ['124', 'Order 2 payment', '70.00']
+  ]
 }
 
 copy = Cheque.new(data, :copy)
@@ -38,7 +55,7 @@ copy = Cheque.new(data, :copy)
 send_data(copy.render, filename: copy.filename, type: copy.mimetype)
 ```
 
-### Cheque Printing
+### Cheque Printing (TODO)
 
 ```ruby
 data = {
