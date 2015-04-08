@@ -36,8 +36,8 @@ describe Cheque::Copy do
     it { expect(strings).to include('Nominal to: Fernando Almeida') }
     it { expect(strings).to include('Amount: $ 100.00') }
     it { expect(strings).to include('Sao Paulo, April 07, 2015') }
-    xit { expect(strings).to include('Authorized signature') }
-    xit { expect(strings).to include('Payer signature') }
+    it { expect(strings).to include('Authorizer signature') }
+    it { expect(strings).to include('Payer signature') }
   end
 
   describe '#file' do

@@ -77,6 +77,31 @@ class Cheque
 
         move_down 20
         text("#{location}, #{l(date, format: :long)}", align: :center)
+
+        move_down 20
+        pad(20) do
+          position = cursor
+          width = bounds.width / 2
+
+          authorizer_signature_box(0, position, width)
+          payer_signature_box(width + 10, position + 24, width)
+        end
+      end
+    end
+
+    def authorizer_signature_box(x, y, width)
+      bounding_box [x, y], width: width do
+        stroke_horizontal_rule
+        move_down 10
+        centered_text('Authorizer signature')
+      end
+    end
+
+    def payer_signature_box(x, y, width)
+      bounding_box [x, y], width: width do
+        stroke_horizontal_rule
+        move_down 10
+        centered_text('Payer signature')
       end
     end
 
@@ -92,6 +117,10 @@ class Cheque
           yield
         end
       end
+    end
+
+    def centered_text(s)
+      text(s, align: :center)
     end
 
     def text_attribute(name, value)
