@@ -23,15 +23,20 @@ class Cheque
       :location,
       :date,
       :filepath,
-      :errors
+      :errors,
+      :locale,
+      :currency
     ]
 
     def initialize(params)
-      params.each do |param, value|
+      I18n.locale = params[:locale] || DEFAULT_LOCALE
+
+      default_params.merge(params).each do |param, value|
         send("#{param}=", value)
       end
 
       self.errors = {}
+      I18n.locale = locale
     end
 
     def data
@@ -61,7 +66,12 @@ class Cheque
 
     def title_box(padding = 0)
       move_down(padding)
-      text('CHEQUE COPY', align: :center, style: :bold, size: 14)
+      text(
+        t('cheque.copy.title').upcase,
+        align: :center,
+        style: :bold,
+        size: 14
+      )
     end
 
     def cheque_copy_box(padding = 0)
@@ -78,25 +88,25 @@ class Cheque
     def id_box(padding = 0)
       move_down(padding)
 
-      text_attribute('Cheque copy number', id)
+      text_attribute(t('cheque.copy.number'), id)
       stroke_horizontal_rule
     end
 
     def bank_data_box(padding = 0)
       move_down(padding)
 
-      text_attribute('Bank', bank)
-      text_attribute('Agency', agency_number)
-      text_attribute('Account', account_number)
-      text_attribute('Account holder', account_holder)
+      text_attribute(t('cheque.bank.name'), bank)
+      text_attribute(t('cheque.bank.agency'), agency_number)
+      text_attribute(t('cheque.bank.account'), account_number)
+      text_attribute(t('cheque.bank.account_holder'), account_holder)
     end
 
     def cheque_data_box(padding = 0)
       move_down(padding)
 
-      text_attribute('Cheque number', cheque_number)
-      text_attribute('Amount', "$ #{amount}")
-      text_attribute('Nominal to', nominal_to)
+      text_attribute(t('cheque.number'), cheque_number)
+      text_attribute(t('cheque.amount'), "#{t('cheque.currency')} #{amount}")
+      text_attribute(t('cheque.nominal_to'), nominal_to)
     end
 
     def date_box(padding = 0)
@@ -121,7 +131,7 @@ class Cheque
       bounding_box [x, y], width: width do
         stroke_horizontal_rule
         move_down 10
-        centered_text('Authorizer signature')
+        centered_text(t('cheque.authorizer_signature'))
       end
     end
 
@@ -129,7 +139,7 @@ class Cheque
       bounding_box [x, y], width: width do
         stroke_horizontal_rule
         move_down 10
-        centered_text('Payer signature')
+        centered_text(t('cheque.payer_signature'))
       end
     end
 
@@ -179,8 +189,18 @@ class Cheque
     def tempfilepath
       @tempfilepath ||= File.join(
         Dir.tmpdir,
-        Dir::Tmpname.make_tmpname('cheque_copy', "#{id}.pdf")
+        Dir::Tmpname.make_tmpname(
+          t('cheque.copy.title').downcase.gsub(/\W/, '_'),
+          "#{id}.pdf"
+        )
       )
+    end
+
+    def default_params
+      {
+        locale: DEFAULT_LOCALE,
+        currency: t('cheque.currency')
+      }
     end
   end
 end

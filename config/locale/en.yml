@@ -1,6 +1,20 @@
 ---
 en:
   cheque:
+    number: Cheque number
+    amount: Amount
+    nominal_to: Nominal to
+    currency: $
+    authorizer_signature: Authorizer signature
+    payer_signature: Payer signature
+    copy:
+      title: Cheque copy
+      number: Cheque copy number
+    bank:
+      name: Bank
+      agency: Agency
+      account: Account
+      account_holder: Account holder
     errors:
       required_param_not_found: required param not found
   date:

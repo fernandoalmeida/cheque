@@ -1,6 +1,20 @@
 ---
 pt-BR:
   cheque:
+    number: Número do cheque
+    amount: Valor
+    nominal_to: Nominal a
+    currency: R$
+    authorizer_signature: Assinatura do responsável
+    payer_signature: Assinatura do emissor
+    copy:
+      title: Cópia de cheque
+      number: Cópia de cheque número
+    bank:
+      name: Banco
+      agency: Agencia
+      account: Conta
+      account_holder: Titular
     errors:
       required_param_not_found: parâmetro obrigatório não encontrado
   date:
