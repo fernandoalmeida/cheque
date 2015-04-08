@@ -37,7 +37,7 @@ class Cheque
     def data
       return unless valid?
 
-      generate
+      prepare
       render
     end
 
@@ -45,7 +45,7 @@ class Cheque
       return unless valid?
 
       @file ||= lambda do
-        generate
+        prepare
         save_as(path)
 
         path
@@ -54,38 +54,66 @@ class Cheque
 
     private
 
-    def generate
-      valid?
+    def prepare
+      title_box
+      cheque_copy_box(20)
+    end
 
+    def title_box(padding = 0)
+      move_down(padding)
       text('CHEQUE COPY', align: :center, style: :bold, size: 14)
+    end
 
-      move_down 20
-      padded_bounding_box(20, [30, cursor], width: 500, height: 400) do
-        text_attribute('Cheque copy number', id)
-        stroke_horizontal_rule
+    def cheque_copy_box(padding = 0)
+      move_down(padding)
+      padded_bounding_box(20, [30, cursor], width: 500, height: 300) do
+        id_box
+        bank_data_box(20)
+        cheque_data_box(10)
+        date_box(15)
+        signatures_boxes(5)
+      end
+    end
 
-        move_down 10
-        text_attribute('Bank', bank)
-        text_attribute('Agency', agency_number)
-        text_attribute('Account', account_number)
-        text_attribute('Account holder', account_holder)
+    def id_box(padding = 0)
+      move_down(padding)
 
-        move_down 10
-        text_attribute('Cheque number', cheque_number)
-        text_attribute('Amount', "$ #{amount}")
-        text_attribute('Nominal to', nominal_to)
+      text_attribute('Cheque copy number', id)
+      stroke_horizontal_rule
+    end
 
-        move_down 20
-        text("#{location}, #{l(date, format: :long)}", align: :center)
+    def bank_data_box(padding = 0)
+      move_down(padding)
 
-        move_down 20
-        pad(20) do
-          position = cursor
-          width = bounds.width / 2
+      text_attribute('Bank', bank)
+      text_attribute('Agency', agency_number)
+      text_attribute('Account', account_number)
+      text_attribute('Account holder', account_holder)
+    end
 
-          authorizer_signature_box(0, position, width)
-          payer_signature_box(width + 10, position + 24, width)
-        end
+    def cheque_data_box(padding = 0)
+      move_down(padding)
+
+      text_attribute('Cheque number', cheque_number)
+      text_attribute('Amount', "$ #{amount}")
+      text_attribute('Nominal to', nominal_to)
+    end
+
+    def date_box(padding = 0)
+      move_down(padding)
+
+      centered_text("#{location}, #{l(date, format: :long)}")
+    end
+
+    def signatures_boxes(padding = 0)
+      move_down(padding)
+
+      pad(20) do
+        position = cursor
+        width = bounds.width / 2
+
+        authorizer_signature_box(0, position, width - 10)
+        payer_signature_box(width + 10, position + 24, width - 10)
       end
     end
 
