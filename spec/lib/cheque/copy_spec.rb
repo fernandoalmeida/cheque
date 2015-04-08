@@ -13,7 +13,12 @@ describe Cheque::Copy do
       nominal_to: 'Fernando Almeida',
       amount: '100.00',
       location: 'Sao Paulo',
-      date: Date.new(2015, 4, 7)
+      date: Date.new(2015, 4, 7),
+      transactions: [
+        ['Transaction', 'Description', 'Value'],
+        ['123', 'Order 1 payment', '30.00'],
+        ['124', 'Order 2 payment', '70.00']
+      ]
     }
   end
 
@@ -38,6 +43,12 @@ describe Cheque::Copy do
     it { expect(strings).to include('Sao Paulo, April 07, 2015') }
     it { expect(strings).to include('Authorizer signature') }
     it { expect(strings).to include('Payer signature') }
+    it { expect(strings).to include('Transaction') }
+    it { expect(strings).to include('Description') }
+    it { expect(strings).to include('Value') }
+    it { expect(strings).to include('123') }
+    it { expect(strings).to include('Order 1 payment') }
+    it { expect(strings).to include('30.00') }
   end
 
   describe '#file' do

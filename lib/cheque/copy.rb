@@ -1,3 +1,4 @@
+require 'prawn/table'
 require 'ostruct'
 require 'tmpdir'
 require_relative '../../config/initializers/setup_i18n.rb'
@@ -22,6 +23,7 @@ class Cheque
       :amount,
       :location,
       :date,
+      :transactions,
       :filepath,
       :errors,
       :locale,
@@ -62,6 +64,7 @@ class Cheque
     def prepare
       title_box
       cheque_copy_box(20)
+      transactions_box(30)
     end
 
     def title_box(padding = 0)
@@ -82,6 +85,16 @@ class Cheque
         cheque_data_box(10)
         date_box(15)
         signatures_boxes(5)
+      end
+    end
+
+    def transactions_box(padding = 0)
+      pad(padding) do
+        if transactions
+          table(transactions, width: 550) do
+            row(0).font_style = :bold
+          end
+        end
       end
     end
 
