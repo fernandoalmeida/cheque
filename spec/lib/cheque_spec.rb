@@ -19,6 +19,8 @@ describe Cheque do
 
   let(:document) { :copy }
 
+  let(:formater) { Cheque::Copy }
+
   it { expect(cheque).to be_truthy }
 
   describe '#render' do
@@ -26,10 +28,20 @@ describe Cheque do
 
     it { expect(render).to be_truthy }
 
-    it 'delegates to Cheque::Copy' do
-      expect_any_instance_of(Cheque::Copy).to receive(:data)
+    it 'delegates to formater' do
+      expect_any_instance_of(formater).to receive(:data)
 
       render
+    end
+  end
+
+  describe '#filename' do
+    subject(:filename) { cheque.filename }
+
+    it 'delegates to formater' do
+      expect_any_instance_of(formater).to receive(:filename)
+
+      filename
     end
   end
 end

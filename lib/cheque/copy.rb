@@ -59,6 +59,10 @@ class Cheque
       end.call
     end
 
+    def filename
+      File.basename(path)
+    end
+
     private
 
     def prepare

@@ -60,4 +60,17 @@ describe Cheque::Copy do
 
     after { File.unlink(file) if File.exist?(file) }
   end
+
+  describe '#filename' do
+    subject(:filename) { copy.filename }
+
+    it { is_expected.to match(/^cheque_copy_.*1.pdf$/) }
+
+    context 'when a filepath is passed' do
+      let(:copy) { described_class.new(params.merge(filepath)) }
+      let(:filepath) { { filepath: '/tmp/custom.pdf' } }
+
+      it { is_expected.to eq('custom.pdf') }
+    end
+  end
 end
