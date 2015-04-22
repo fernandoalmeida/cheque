@@ -44,4 +44,14 @@ describe Cheque do
       filename
     end
   end
+
+  describe '#mimetype' do
+    subject(:mimetype) { cheque.mimetype }
+
+    it 'delegates to formater' do
+      expect_any_instance_of(formater).to receive(:mimetype)
+
+      mimetype
+    end
+  end
 end

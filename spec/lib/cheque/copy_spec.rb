@@ -61,6 +61,12 @@ describe Cheque::Copy do
     after { File.unlink(file) if File.exist?(file) }
   end
 
+  describe '#mimetype' do
+    subject(:mimetype) { copy.mimetype }
+
+    it { is_expected.to eq 'application/pdf' }
+  end
+
   describe '#filename' do
     subject(:filename) { copy.filename }
 

@@ -6,7 +6,7 @@ class Cheque
 
   autoload :Copy, 'cheque/copy'
 
-  def_delegators :formater, :filename
+  def_delegators :formater, :filename, :mimetype
 
   def initialize(data, document)
     @data = data

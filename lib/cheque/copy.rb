@@ -63,6 +63,10 @@ class Cheque
       File.basename(path)
     end
 
+    def mimetype
+      'application/pdf'
+    end
+
     private
 
     def prepare
@@ -207,7 +211,7 @@ class Cheque
       @tempfilepath ||= File.join(
         Dir.tmpdir,
         Dir::Tmpname.make_tmpname(
-          t('cheque.copy.title').downcase.gsub(/\W/, '_'),
+          "#{t('cheque.copy.title').downcase.gsub(/\W/, '_')}_",
           "#{id}.pdf"
         )
       )
